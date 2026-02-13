@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Boy Universe</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to bottom, #fce4ec, #f5e6d8);
+  overflow: hidden;
+}
+
+.level {
+  display: none;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+}
+
+.active {
+  display: flex;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  background-color: #f8bbd0;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #f48fb1;
+}
+
+.heart {
+  position: absolute;
+  font-size: 24px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.quiz-option {
+  display: block;
+  margin: 10px;
+  padding: 10px;
+  background: #ffe0e6;
+  border-radius: 20px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LEVEL 1 -->
+<div class="level active" id="level1">
+  <h1>Happyyy Birthday Choteeeee 🎂✨💗</h1>
+  <p>I’m so lucky to have youuu 🤍</p>
+  <p>Welcome to your little birthday universe 🌸</p>
+  <button onclick="nextLevel(2)">Enter the birthday boy’s universe ✨</button>
+</div>
+
+<!-- LEVEL 2 -->
+<div class="level" id="level2">
+  <h1>Waittt… before you continue 👀</h1>
+  <p>I love you. Like a lot a lot.</p>
+  <p>And I wanted to do something that feels like me.</p>
+  <button onclick="nextLevel(3)">Press me now idiot 🤍</button>
+</div>
+
+<!-- LEVEL 3 HEART GAME -->
+<div class="level" id="level3">
+  <h1>Collect as many hearts as you can 💕</h1>
+  <p>The more you collect, the more you love me 😌 (20 total)</p>
+  <p id="counter">Hearts collected: 0 / 20</p>
+</div>
+
+<!-- LEVEL 4 QUIZ -->
+<div class="level" id="level4">
+  <h1>How well do you know me?</h1>
+  <div id="quizContainer"></div>
+</div>
+
+<!-- LEVEL 5 LETTER -->
+<div class="level" id="level5">
+  <h1>For you 🤍</h1>
+  <p style="max-width: 600px;">
+  Happpy birthday chotuuuu I fucking love u bhot zyaadaaaa and I hopeee tera din bhot acha gaya hoga and that you felt special and happy the whole time because you really deserve it and this is urr chotu sa gift tujhe bhi pta hai ki I can’t gift u something ya card nhi bana sakti but yeh toh kar sakti hu naaa and you better keep this website safe forever samjha 😌 and don’t you dare ever forget how much I love you mwuahhhh 🤍
+  </p>
+  <button onclick="nextLevel(6)">One last thing…</button>
+</div>
+
+<!-- LEVEL 6 FINAL -->
+<div class="level" id="level6">
+  <h1>Stay mine forever.</h1>
+  <p>Now come hug me birthday boy 🤍</p>
+</div>
+
+<script>
+let currentLevel = 1;
+let heartsCollected = 0;
+let totalHearts = 20;
+
+function nextLevel(level) {
+  document.getElementById("level" + currentLevel).classList.remove("active");
+  currentLevel = level;
+  document.getElementById("level" + currentLevel).classList.add("active");
+
+  if (level === 3) startHearts();
+  if (level === 4) loadQuiz();
+}
+
+function startHearts() {
+  heartsCollected = 0;
+  document.getElementById("counter").innerText = "Hearts collected: 0 / 20";
+
+  for (let i = 0; i < totalHearts; i++) {
+    let heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerText = "💗";
+    heart.style.left = Math.random() * 90 + "vw";
+    heart.style.top = "-50px";
+    document.body.appendChild(heart);
+
+    let fall = setInterval(() => {
+      heart.style.top = (parseFloat(heart.style.top) + 3) + "px";
+      if (parseFloat(heart.style.top) > window.innerHeight) {
+        clearInterval(fall);
+        heart.remove();
+        checkHearts();
+      }
+    }, 20);
+
+    heart.onclick = function() {
+      heartsCollected++;
+      document.getElementById("counter").innerText =
+        "Hearts collected: " + heartsCollected + " / 20";
+      heart.remove();
+      checkHearts();
+    };
+  }
+}
+
+function checkHearts() {
+  if (document.querySelectorAll(".heart").length === 0) {
+    let message = "";
+
+    if (heartsCollected <= 5) message = "hmm that’s suspicious 👀";
+    else if (heartsCollected <= 12) message = "okayyy not bad 😌";
+    else if (heartsCollected <= 15) message = "ahh bas ittu sa pyaar 🥹";
+    else message = "damnn itna sara pyaar 😌";
+
+    document.getElementById("level3").innerHTML +=
+      "<h2>" + message + "</h2><h3>I love uu 🤍</h3><button onclick='nextLevel(4)'>Continue chotu</button>";
+  }
+}
+
+let quiz = [
+  {q:"Mountains or beach?", a:["Mountains","Beach"], correct:0},
+  {q:"Sharing food or don’t touch mine?", a:["Sharing food","Don’t touch mine"], correct:1},
+  {q:"Sunset or sunrise?", a:["Sunset","Sunrise"], correct:0},
+  {q:"Who loves more?", a:["You","Me"], correct:1},
+  {q:"Who is more stubborn?", a:["Me","Sashmit"], correct:1}
+];
+
+let score = 0;
+let currentQuestion = 0;
+
+function loadQuiz() {
+  score = 0;
+  currentQuestion = 0;
+  showQuestion();
+}
+
+function showQuestion() {
+  if (currentQuestion >= quiz.length) {
+    showResult();
+    return;
+  }
+
+  let container = document.getElementById("quizContainer");
+  container.innerHTML = "";
+
+  let question = document.createElement("h3");
+  question.innerText = quiz[currentQuestion].q;
+  container.appendChild(question);
+
+  quiz[currentQuestion].a.forEach((option, index) => {
+    let btn = document.createElement("div");
+    btn.className = "quiz-option";
+    btn.innerText = option;
+    btn.onclick = function() {
+      if (index === quiz[currentQuestion].correct) score++;
+      currentQuestion++;
+      showQuestion();
+    };
+    container.appendChild(btn);
+  });
+}
+
+function showResult() {
+  let container = document.getElementById("quizContainer");
+  let message = "";
+
+  if (score === 5) message = "Okay fine you’re obsessed with me 😌";
+  else if (score >= 3) message = "You love me a lot but improve 😭";
+  else message = "Redo immediately idiot 👀";
+
+  container.innerHTML =
+    "<h2>Your score: " + score + "/5</h2><p>" + message +
+    "</p><button onclick='nextLevel(5)'>Final level chote?</button>";
+}
+</script>
+
+</body>
+</html>
