@@ -3,185 +3,279 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sashmit's Birthday 🎉</title>
+<title>Birthday Boy Universe</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
-/* Reset */
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Poppins',sans-serif;min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#ffd1dc,#ffe4e1);overflow:hidden;}
+* { box-sizing: border-box; }
 
-/* Background blobs */
-.blob{position:fixed;width:350px;height:350px;border-radius:50%;filter:blur(120px);z-index:-1;}
-.blob1{background:#ff9ecb;top:-100px;left:-100px;}
-.blob2{background:#ffc8dd;bottom:-120px;right:-120px;}
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(-45deg, #ffd6e8, #ffe9d6, #ffc2dd, #ffe3c9);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
 
-/* Card style */
-.card{background:#fffaf4;width:92%;max-width:500px;padding:40px 30px;border-radius:30px;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,0.15);position:relative;display:flex;flex-direction:column;gap:20px;transition:all 0.5s ease;}
-.card::before{content:"";position:absolute;inset:-3px;border-radius:35px;background:linear-gradient(45deg,#ffb3c6,#ffc2d1,#ffe5ec);z-index:-1;}
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-/* Texts */
-h1{font-family:'Playfair Display',serif;font-size:32px;margin-bottom:5px;}
-.subtitle{font-size:14px;opacity:0.7;margin-bottom:15px;}
-.message{font-size:15px;line-height:1.7;margin-bottom:20px;}
-.timer{font-size:36px;font-weight:600;margin-bottom:15px;}
+.card {
+  background: #fff4ea;
+  width: 90%;
+  max-width: 380px;
+  height: 80vh;
+  border-radius: 35px;
+  padding: 25px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  border: 2px solid #ffd1dc;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin: auto;
+}
 
-/* Hearts */
-.big-heart{font-size:60px;animation:pulse 1.3s infinite;cursor:pointer;position:relative;}
-@keyframes pulse{0%{transform:scale(1);}50%{transform:scale(1.2);}100%{transform:scale(1);}}
+.level { display: none; }
+.active { display: block; }
 
-/* Hidden sections */
-.hidden{display:none;}
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.9rem;
+  margin-bottom: 10px;
+}
 
-/* Heart falling game */
-.falling-heart{position:absolute;font-size:50px;pointer-events:auto;cursor:pointer;}
+p { font-size: 0.95rem; }
+
+button {
+  margin-top: 18px;
+  padding: 12px 18px;
+  border-radius: 30px;
+  border: none;
+  background: #ffb6c1;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover { transform: scale(1.05); }
+
+.quiz-option {
+  background: #ffe0ea;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.quiz-option:hover {
+  background: #ffcadc;
+}
+
+.heart {
+  position: absolute;
+  font-size: 48px; /* bigger hearts */
+  cursor: pointer;
+}
+
+#countdown {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.fade {
+  animation: fade 0.5s ease;
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
 </style>
 </head>
+
 <body>
 
-<div class="blob blob1"></div>
-<div class="blob blob2"></div>
+<div class="card">
 
-<!-- Level 1 -->
-<div class="card" id="level1">
-  <h1>Happy Birthday 🤍</h1>
-  <div class="subtitle">A little something for you</div>
-  <div class="message">
-    Happpy birthday chotuuuu I fucking love u bhot zyaadaaaa and I hopeee tera din bhot acha gaya hoga and that you felt special and happy the whole time because you really deserve it and this is urr chotu sa gift tujhe bhi pta hai ki I can’t gift u something ya card nhi bana sakti but yeh toh kar sakti hu naaa and you better keep this website safe forever samjha 😌 and don’t you dare ever forget how much I love you mwuahhhh 🤍
-  </div>
-  <div class="timer" id="countdown">10</div>
+<!-- LEVEL 1 -->
+<div class="level active fade" id="level1">
+  <h1>Happyyy Birthdayyy Chotuuuuu 🎂✨💗</h1>
+  <p>I’m so lucky to have youuu 🤍</p>
+  <p>Welcome to your little birthday universe 🌸</p>
+  <button onclick="nextLevel(2)">Enter the birthday boy’s universe ✨</button>
 </div>
 
-<!-- Level 2: Hearts Game -->
-<div class="card hidden" id="level2">
-  <h1>Collect the hearts ❤️</h1>
-  <div class="subtitle">Click on hearts as they fall! Max 20 hearts</div>
-  <div id="heartContainer" style="position:relative;height:300px;"></div>
-  <div class="timer" id="heartTimer"></div>
+<!-- LEVEL 2 -->
+<div class="level fade" id="level2">
+  <h1>Waittt… before you continue 👀</h1>
+  <p>I loveee you itna zyaada naa.</p>
+  <p>And I wanted to do something that feels like me.</p>
+  <button onclick="nextLevel(3)">Press me now idiot 🤍</button>
 </div>
 
-<!-- Level 3: Quiz -->
-<div class="card hidden" id="level3">
-  <h1>Fun Quiz 📝</h1>
+<!-- LEVEL 3 HEART GAME -->
+<div class="level fade" id="level3">
+  <h1>Collect as many hearts as you can 💕</h1>
+  <p>The more you collect, the more you love me 😌 (20 total)</p>
+  <div id="countdown"></div>
+  <p id="counter">Hearts collected: 0 / 20</p>
+</div>
+
+<!-- LEVEL 4 QUIZ -->
+<div class="level fade" id="level4">
+  <h1>How well do you know me?</h1>
   <div id="quizContainer"></div>
-  <button id="quizNext" class="hidden">Next</button>
 </div>
 
-<!-- Level 4: Final Message -->
-<div class="card hidden" id="level4">
-  <h1>All Done! 💌</h1>
-  <div class="message" id="finalMessage"></div>
+<!-- LEVEL 5 LETTER -->
+<div class="level fade" id="level5">
+  <h1>For you 🤍</h1>
+  <p style="font-size:0.9rem;">
+Happpy birthday chotuuuu I fucking love u bhot zyaadaaaa and I hopeee tera din bhot acha gaya hoga and that you felt special and happy the whole time because you really deserve it and this is urr chotu sa gift tujhe bhi pta hai ki I can’t gift u something ya card nhi bana sakti but yeh toh kar sakti hu naaa and you better keep this website safe forever samjha 😌 and don’t you dare ever forget how much I love you mwuahhhh 🤍
+  </p>
+  <button onclick="nextLevel(6)">One last thing…</button>
+</div>
+
+<!-- FINAL -->
+<div class="level fade" id="level6">
+  <h1>Stay mine forever.</h1>
+  <p>Now come hug me birthday boy 🤍</p>
+</div>
+
 </div>
 
 <script>
-// ----------------- Level 1 Countdown -----------------
-let level1Time = 10;
-let countdownEl = document.getElementById("countdown");
-let level1Interval = setInterval(()=>{
-  level1Time--;
-  countdownEl.innerText = level1Time;
-  if(level1Time<=0){
-    clearInterval(level1Interval);
-    document.getElementById("level1").classList.add("hidden");
-    startHeartGame();
-  }
-},1000);
+let currentLevel = 1;
+function nextLevel(n){
+  document.getElementById("level"+currentLevel).classList.remove("active");
+  currentLevel = n;
+  document.getElementById("level"+currentLevel).classList.add("active");
+  if(n===3) startCountdown();
+  if(n===4) loadQuiz();
+}
 
-// ----------------- Level 2: Hearts Game -----------------
-const heartContainer = document.getElementById("heartContainer");
-const maxHearts = 20;
-let collected = 0;
+let totalHearts=20, heartsCollected=0, dropped=0;
 
-function startHeartGame(){
-  document.getElementById("level2").classList.remove("hidden");
-  let heartsFallen = 0;
-
-  const fallInterval = setInterval(()=>{
-    if(heartsFallen >= maxHearts) {
-      clearInterval(fallInterval);
-      setTimeout(showFinalMessage,1000);
-      return;
+/* Countdown adjusted to 10 sec */
+function startCountdown(){
+  let count=10;
+  let cd=document.getElementById("countdown");
+  cd.innerText="Hearts start in "+count;
+  let interval=setInterval(()=>{
+    count--;
+    if(count===0){
+      clearInterval(interval);
+      cd.innerText="";
+      startHearts();
+    } else {
+      cd.innerText="Hearts start in "+count;
     }
+  },1000);
+}
 
-    // Drop 2 hearts at a time
-    createHeart();
-    createHeart();
-    heartsFallen+=2;
-  },3000); // 3 seconds spacing
+function startHearts(){
+  heartsCollected=0;
+  dropped=0;
+  dropPair();
+}
 
+function dropPair(){
+  if(dropped>=totalHearts) return;
+  for(let i=0;i<2 && dropped<totalHearts;i++){
+    createHeart();
+    dropped++;
+  }
+  setTimeout(dropPair,2500);
 }
 
 function createHeart(){
-  let heart = document.createElement("div");
-  heart.className = "falling-heart";
-  heart.innerText = "❤️";
-  heart.style.left = Math.random()*80 + "%";
-  heart.style.top = "-50px";
-  heartContainer.appendChild(heart);
+  let heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerText="💗";
+  heart.style.left=Math.random()*80+"%";
+  heart.style.top="-40px";
+  document.querySelector(".card").appendChild(heart);
 
-  let fallSpeed = 3 + Math.random()*2; // pixels per 10ms
-  let heartInterval = setInterval(()=>{
-    let top = parseFloat(heart.style.top);
-    if(top>260){ // bottom limit
-      clearInterval(heartInterval);
-      heartContainer.removeChild(heart);
-    } else {
-      heart.style.top = top + fallSpeed + "px";
+  let fall=setInterval(()=>{
+    heart.style.top=(parseFloat(heart.style.top)+4)+"px";
+    if(parseFloat(heart.style.top)>600){
+      clearInterval(fall);
+      heart.remove();
+      checkEnd();
     }
-  },10);
+  },20);
 
-  heart.addEventListener("click",()=>{
-    collected++;
-    heartContainer.removeChild(heart);
-  });
-}
-
-// ----------------- Level 3 Quiz -----------------
-const quizData = [
-  {q:"Who loves more?",a:["Navya","Sashmit"],correct:"Navya"},
-  {q:"Your favorite food?",a:["Pizza","Burger"],correct:"Pizza"},
-  {q:"Mountains or Beach?",a:["Mountains","Beach"],correct:"Mountains"},
-  {q:"Sunset or Sunrise?",a:["Sunset","Sunrise"],correct:"Sunset"},
-  {q:"Pick a letter","a":["A","B"],correct:"A"},
-];
-let currentQ = 0;
-function showQuiz(){
-  const container = document.getElementById("quizContainer");
-  container.innerHTML = "";
-  if(currentQ>=quizData.length){
-    document.getElementById("level3").classList.add("hidden");
-    showFinalMessage();
-    return;
+  heart.onclick=function(){
+    heartsCollected++;
+    document.getElementById("counter").innerText="Hearts collected: "+heartsCollected+" / 20";
+    heart.remove();
+    checkEnd();
   }
-  let qObj = quizData[currentQ];
-  let qEl = document.createElement("div");
-  qEl.innerHTML = `<h3>${qObj.q}</h3>`;
-  qObj.a.forEach(opt=>{
-    let btn = document.createElement("button");
-    btn.innerText = opt;
-    btn.style.margin="5px";
-    btn.addEventListener("click",()=>{
-      currentQ++;
-      showQuiz();
-    });
-    qEl.appendChild(btn);
+}
+
+function checkEnd(){
+  if(document.querySelectorAll(".heart").length===0 && dropped>=totalHearts){
+    let msg="";
+    if(heartsCollected<=5) msg="hmm that’s suspicious 👀";
+    else if(heartsCollected<=12) msg="okayyy not bad 😌";
+    else if(heartsCollected<=15) msg="ahh bas ittu sa pyaar 🥹";
+    else msg="damnn itna sara pyaar 😌";
+
+    document.getElementById("level3").innerHTML+=
+    "<h3>"+msg+"</h3><h2>I love uu 🤍</h2><button onclick='nextLevel(4)'>Continue chotu</button>";
+  }
+}
+
+let quiz=[
+{q:"Mountains or beach?",a:["Mountains","Beach"],c:0},
+{q:"Sharing food or don’t touch mine?",a:["Sharing food","Don’t touch mine"],c:1},
+{q:"Sunset or sunrise?",a:["Sunset","Sunrise"],c:0},
+{q:"Who loves more?",a:["Navya","Sashmit"],c:0},
+{q:"Who is more stubborn?",a:["Navya","Sashmit"],c:1}
+];
+
+let qi=0, score=0;
+
+function loadQuiz(){ qi=0; score=0; showQ(); }
+
+function showQ(){
+  if(qi>=quiz.length){ showResult(); return; }
+  let container=document.getElementById("quizContainer");
+  container.innerHTML="<h3>"+quiz[qi].q+"</h3>";
+  quiz[qi].a.forEach((opt,i)=>{
+    let div=document.createElement("div");
+    div.className="quiz-option";
+    div.innerText=opt;
+    div.onclick=function(){
+      if(i===quiz[qi].c) score++;
+      qi++;
+      showQ();
+    };
+    container.appendChild(div);
   });
-  container.appendChild(qEl);
 }
 
-// ----------------- Level 4 Final Message -----------------
-function showFinalMessage(){
-  document.getElementById("level2").classList.add("hidden");
-  document.getElementById("level3").classList.remove("hidden");
-  showQuiz();
+function showResult(){
+  let msg="";
+  if(score===5) msg="Okay fine you’re obsessed with me 😌";
+  else if(score>=3) msg="You love me a lot but improve 😭";
+  else msg="Redo immediately idiot 👀";
+
+  document.getElementById("quizContainer").innerHTML=
+  "<h2>Your score: "+score+"/5</h2><p>"+msg+"</p><button onclick='nextLevel(5)'>Final level chote?</button>";
 }
-
-// Optional: Final personalized message based on hearts collected
-document.getElementById("quizNext").addEventListener("click",()=>{
-  document.getElementById("level3").classList.add("hidden");
-  document.getElementById("level4").classList.remove("hidden");
-  document.getElementById("finalMessage").innerText = `You collected ${collected} hearts ❤️\nI love you so much 🤍`;
-});
-
 </script>
+
 </body>
 </html>
