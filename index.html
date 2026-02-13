@@ -1,115 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Birthday Boy Universe 🤍</title>
-
+<title>Sashmit's Birthday 🎉</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+/* Reset */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins',sans-serif;min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#ffd1dc,#ffe4e1);overflow:hidden;}
 
-body{
-  font-family:'Poppins',sans-serif;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:linear-gradient(135deg,#ffd1dc,#ffe4e1);
-  overflow:hidden;
-}
+/* Background blobs */
+.blob{position:fixed;width:350px;height:350px;border-radius:50%;filter:blur(120px);z-index:-1;}
+.blob1{background:#ff9ecb;top:-100px;left:-100px;}
+.blob2{background:#ffc8dd;bottom:-120px;right:-120px;}
 
-/* floating background blobs */
-.blob{
-  position:fixed;
-  width:350px;
-  height:350px;
-  border-radius:50%;
-  filter:blur(120px);
-  z-index:-1;
-}
+/* Card style */
+.card{background:#fffaf4;width:92%;max-width:500px;padding:40px 30px;border-radius:30px;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,0.15);position:relative;display:flex;flex-direction:column;gap:20px;transition:all 0.5s ease;}
+.card::before{content:"";position:absolute;inset:-3px;border-radius:35px;background:linear-gradient(45deg,#ffb3c6,#ffc2d1,#ffe5ec);z-index:-1;}
 
-.blob1{
-  background:#ff9ecb;
-  top:-100px;
-  left:-100px;
-}
+/* Texts */
+h1{font-family:'Playfair Display',serif;font-size:32px;margin-bottom:5px;}
+.subtitle{font-size:14px;opacity:0.7;margin-bottom:15px;}
+.message{font-size:15px;line-height:1.7;margin-bottom:20px;}
+.timer{font-size:36px;font-weight:600;margin-bottom:15px;}
 
-.blob2{
-  background:#ffc8dd;
-  bottom:-120px;
-  right:-120px;
-}
+/* Hearts */
+.big-heart{font-size:60px;animation:pulse 1.3s infinite;cursor:pointer;position:relative;}
+@keyframes pulse{0%{transform:scale(1);}50%{transform:scale(1.2);}100%{transform:scale(1);}}
 
-/* main card */
-.card{
-  background:#fffaf4;
-  width:92%;
-  max-width:500px;
-  padding:40px 30px;
-  border-radius:30px;
-  text-align:center;
-  box-shadow:
-    0 25px 60px rgba(0,0,0,0.15);
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  gap:20px;
-}
+/* Hidden sections */
+.hidden{display:none;}
 
-/* border glow */
-.card::before{
-  content:"";
-  position:absolute;
-  inset:-3px;
-  border-radius:35px;
-  background:linear-gradient(45deg,#ffb3c6,#ffc2d1,#ffe5ec);
-  z-index:-1;
-}
-
-/* heading */
-h1{
-  font-family:'Playfair Display',serif;
-  font-size:32px;
-  margin-bottom:5px;
-}
-
-.subtitle{
-  font-size:14px;
-  opacity:0.7;
-  margin-bottom:15px;
-}
-
-.message{
-  font-size:15px;
-  line-height:1.7;
-  margin-bottom:20px;
-}
-
-/* timer */
-.timer{
-  font-size:36px;
-  font-weight:600;
-  margin-bottom:15px;
-}
-
-/* big heart */
-.big-heart{
-  font-size:60px;
-  animation:pulse 1.3s infinite;
-}
-
-@keyframes pulse{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.2);}
-  100%{transform:scale(1);}
-}
-
+/* Heart falling game */
+.falling-heart{position:absolute;font-size:50px;pointer-events:auto;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -117,35 +41,147 @@ h1{
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 
-<div class="card">
+<!-- Level 1 -->
+<div class="card" id="level1">
   <h1>Happy Birthday 🤍</h1>
   <div class="subtitle">A little something for you</div>
-
   <div class="message">
     Happpy birthday chotuuuu I fucking love u bhot zyaadaaaa and I hopeee tera din bhot acha gaya hoga and that you felt special and happy the whole time because you really deserve it and this is urr chotu sa gift tujhe bhi pta hai ki I can’t gift u something ya card nhi bana sakti but yeh toh kar sakti hu naaa and you better keep this website safe forever samjha 😌 and don’t you dare ever forget how much I love you mwuahhhh 🤍
   </div>
+  <div class="timer" id="countdown">10</div>
+</div>
 
-  <div class="timer" id="timer">10</div>
+<!-- Level 2: Hearts Game -->
+<div class="card hidden" id="level2">
+  <h1>Collect the hearts ❤️</h1>
+  <div class="subtitle">Click on hearts as they fall! Max 20 hearts</div>
+  <div id="heartContainer" style="position:relative;height:300px;"></div>
+  <div class="timer" id="heartTimer"></div>
+</div>
 
-  <div class="big-heart" id="heart">🤍</div>
+<!-- Level 3: Quiz -->
+<div class="card hidden" id="level3">
+  <h1>Fun Quiz 📝</h1>
+  <div id="quizContainer"></div>
+  <button id="quizNext" class="hidden">Next</button>
+</div>
+
+<!-- Level 4: Final Message -->
+<div class="card hidden" id="level4">
+  <h1>All Done! 💌</h1>
+  <div class="message" id="finalMessage"></div>
 </div>
 
 <script>
-// 10 second countdown for heart
-let time = 10;
-let timer = document.getElementById("timer");
-let heart = document.getElementById("heart");
-
-let countdown = setInterval(function(){
-  time--;
-  timer.innerText = time;
-  if(time <= 0){
-    clearInterval(countdown);
-    heart.style.display = "none";
-    timer.style.display = "none";
+// ----------------- Level 1 Countdown -----------------
+let level1Time = 10;
+let countdownEl = document.getElementById("countdown");
+let level1Interval = setInterval(()=>{
+  level1Time--;
+  countdownEl.innerText = level1Time;
+  if(level1Time<=0){
+    clearInterval(level1Interval);
+    document.getElementById("level1").classList.add("hidden");
+    startHeartGame();
   }
 },1000);
-</script>
 
+// ----------------- Level 2: Hearts Game -----------------
+const heartContainer = document.getElementById("heartContainer");
+const maxHearts = 20;
+let collected = 0;
+
+function startHeartGame(){
+  document.getElementById("level2").classList.remove("hidden");
+  let heartsFallen = 0;
+
+  const fallInterval = setInterval(()=>{
+    if(heartsFallen >= maxHearts) {
+      clearInterval(fallInterval);
+      setTimeout(showFinalMessage,1000);
+      return;
+    }
+
+    // Drop 2 hearts at a time
+    createHeart();
+    createHeart();
+    heartsFallen+=2;
+  },3000); // 3 seconds spacing
+
+}
+
+function createHeart(){
+  let heart = document.createElement("div");
+  heart.className = "falling-heart";
+  heart.innerText = "❤️";
+  heart.style.left = Math.random()*80 + "%";
+  heart.style.top = "-50px";
+  heartContainer.appendChild(heart);
+
+  let fallSpeed = 3 + Math.random()*2; // pixels per 10ms
+  let heartInterval = setInterval(()=>{
+    let top = parseFloat(heart.style.top);
+    if(top>260){ // bottom limit
+      clearInterval(heartInterval);
+      heartContainer.removeChild(heart);
+    } else {
+      heart.style.top = top + fallSpeed + "px";
+    }
+  },10);
+
+  heart.addEventListener("click",()=>{
+    collected++;
+    heartContainer.removeChild(heart);
+  });
+}
+
+// ----------------- Level 3 Quiz -----------------
+const quizData = [
+  {q:"Who loves more?",a:["Navya","Sashmit"],correct:"Navya"},
+  {q:"Your favorite food?",a:["Pizza","Burger"],correct:"Pizza"},
+  {q:"Mountains or Beach?",a:["Mountains","Beach"],correct:"Mountains"},
+  {q:"Sunset or Sunrise?",a:["Sunset","Sunrise"],correct:"Sunset"},
+  {q:"Pick a letter","a":["A","B"],correct:"A"},
+];
+let currentQ = 0;
+function showQuiz(){
+  const container = document.getElementById("quizContainer");
+  container.innerHTML = "";
+  if(currentQ>=quizData.length){
+    document.getElementById("level3").classList.add("hidden");
+    showFinalMessage();
+    return;
+  }
+  let qObj = quizData[currentQ];
+  let qEl = document.createElement("div");
+  qEl.innerHTML = `<h3>${qObj.q}</h3>`;
+  qObj.a.forEach(opt=>{
+    let btn = document.createElement("button");
+    btn.innerText = opt;
+    btn.style.margin="5px";
+    btn.addEventListener("click",()=>{
+      currentQ++;
+      showQuiz();
+    });
+    qEl.appendChild(btn);
+  });
+  container.appendChild(qEl);
+}
+
+// ----------------- Level 4 Final Message -----------------
+function showFinalMessage(){
+  document.getElementById("level2").classList.add("hidden");
+  document.getElementById("level3").classList.remove("hidden");
+  showQuiz();
+}
+
+// Optional: Final personalized message based on hearts collected
+document.getElementById("quizNext").addEventListener("click",()=>{
+  document.getElementById("level3").classList.add("hidden");
+  document.getElementById("level4").classList.remove("hidden");
+  document.getElementById("finalMessage").innerText = `You collected ${collected} hearts ❤️\nI love you so much 🤍`;
+});
+
+</script>
 </body>
 </html>
